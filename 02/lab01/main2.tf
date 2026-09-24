@@ -1,11 +1,11 @@
 #
 # EC2 생성 (SG, user_data(WEB server), keypair)
 #
-# * SG(22/tcp, 80/tcp, 443/tcp) 생성 
-# * keypair 
+# * SG(22/tcp, 80/tcp, 443/tcp) 생성
+# * keypair
 # * EC2 (user_data)
 
-# 1) SG(22/tcp, 80/tcp, 443/tcp) 생성 
+# 1) SG(22/tcp, 80/tcp, 443/tcp) 생성
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
 resource "aws_security_group" "mySG" {
   name        = "mySG"
@@ -47,8 +47,8 @@ resource "aws_vpc_security_group_egress_rule" "allow_all" {
   ip_protocol       = "-1"
 }
 
-# 2) keypair 
-# CMD : ssh-keygen -t rsa -N "" ~/.ssh/mykeypair 
+# 2) keypair
+# CMD : ssh-keygen -t rsa -N "" ~/.ssh/mykeypair
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair
 resource "aws_key_pair" "mykeypair" {
   key_name   = "mykeypair"
@@ -58,7 +58,7 @@ resource "aws_key_pair" "mykeypair" {
 
 # 3) EC2 (user_data)
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance
-# * 새로 생성된 Subnet에 놓아야 한다. => subnet_id 
+# * 새로 생성된 Subnet에 놓아야 한다. => subnet_id
 # * 새로 만들 mykeypair 사용해야 한다. => key_name
 # * user_data -> user_data_replace_on_change [v]
 # * 새로 만든 mySG 사용해야 한다. => vpc_security_group_ids
@@ -74,6 +74,7 @@ resource "aws_instance" "myEC2" {
     dnf install -y httpd mod_ssl
     echo "My Web Server Test Page" > /var/www/html/index.html
     systemctl enable --now httpd
+
     EOF
 
 

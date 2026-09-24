@@ -1,7 +1,7 @@
-# 작업계획 
+# 작업계획
 # * NAT Gateway 생성(publicSN)
 # * Private Subnet 생성
-# * private Routing table 생성 및 연결 
+# * private Routing table 생성 및 연결
 # * SG 생성
 # * EC2 생성
 
@@ -9,7 +9,7 @@
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway
 # * EIP 생성
-# * Public Subnet에 NAT Gateway 생성 
+# * Public Subnet에 NAT Gateway 생성
 resource "aws_eip" "myEIP" {
   domain = "vpc"
 
@@ -31,7 +31,7 @@ resource "aws_nat_gateway" "myNAT-GW" {
 }
 # 2) Private Subnet 생성
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet
-# * 새로 생성된 myVPC에 놓아야 한다. 
+# * 새로 생성된 myVPC에 놓아야 한다.
 resource "aws_subnet" "myPriSN" {
   vpc_id     = aws_vpc.myVPC.id
   cidr_block = "10.0.2.0/24"
@@ -40,7 +40,7 @@ resource "aws_subnet" "myPriSN" {
     Name = "myPriSN"
   }
 }
-# 3) private Routing table 생성 및 연결 
+# 3) private Routing table 생성 및 연결
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association
 resource "aws_route_table" "myPriRT" {
@@ -104,9 +104,9 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
 }
 # 5) EC2 생성
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance
-# * 새로 생성된 SG 사용 =>  vpc_security_group_ids  
-# * mykeypair 넣기 =>  key_name 
-# 새로 생성된 myPriSN에 놓아야 한다. => subnet_id 
+# * 새로 생성된 SG 사용 =>  vpc_security_group_ids
+# * mykeypair 넣기 =>  key_name
+# 새로 생성된 myPriSN에 놓아야 한다. => subnet_id
 # * user_data -> user_data_replace-on_change [v]
 resource "aws_instance" "myPriEC2" {
   ami                         = "ami-048f644e868baa0e8"
